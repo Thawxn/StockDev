@@ -2,8 +2,10 @@ const { Router } = require('express')
 
 const routes = new Router()
 
-routes.get('/', (req, res) => {
-    res.send('Ola Mundo!')
-})
+// Importando controllers
+const homeController = require('./controllers/homeController');
+
+// Rotas inicio
+routes.get('/', homeController.index)
 
 module.exports = routes
