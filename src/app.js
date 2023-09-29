@@ -23,6 +23,12 @@ connection
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
+// Models
+const Stock = require('./models/StockModel');
+const Product = require('./models/ProductModel');
+const Location = require('./models/LocationModel');
+const TypeProduct = require('./models/TypeProductModel');
+
 // static
 app.use(express.static(path.resolve(__dirname, '..', 'public')))
 
