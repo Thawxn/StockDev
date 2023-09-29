@@ -1,8 +1,8 @@
-const Location = require('../models/LocationModel');
+const TypeProduct = require('../models/TypeProductModel');
 
 // vizualizar todos
 exports.index = async (req, res) => {
-    await Location.findAll().then(data => {
+    await TypeProduct.findAll().then(data => {
         res.json(data)
     }).catch(err => {
         console.log(err)
@@ -15,10 +15,10 @@ exports.indexId = async (req, res) => {
     const { name } = req.params
 
     if(name !== undefined) {
-        await Location.findOne({where: {name}}).then(data => {
+        await TypeProduct.findOne({where: {name}}).then(data => {
             res.json(data)
         }).catch(() => {
-            res.json({err: 'Location not found.'})
+            res.json({err: 'product type not found.'})
         })
     }
 }
@@ -29,18 +29,18 @@ exports.register = async (req, res) => {
 
     try {
         if(name !== null ) {
-            await Location.findOne({where: {name}}).then(data => {
+            await TypeProduct.findOne({where: {name}}).then(data => {
                 if(data == undefined){
-                    Location.create({name}).then(() => {
-                        res.json({ok: 'success in registering location.'})
+                    TypeProduct.create({name}).then(() => {
+                        res.json({ok: 'product type successfully registered.'})
                     }).catch(() => {
-                        res.json({err: 'err when registering location.'})
+                        res.json({err: 'err registering product type.'})
                     })
                 } else {
-                    res.json({err: 'location already registered.'}) 
+                    res.json({err: 'type of product already registered.'}) 
                 }
             }).catch(() => {
-                res.json({err: 'location already registered.'}) 
+                res.json({err: 'type of product already registered.'}) 
             }) 
         }
     } catch(err) {
@@ -58,22 +58,22 @@ exports.edit = async (req, res) => {
     if (isNaN(id)){
         res.sendStatus(400)
     } else {
-        await Location.findOne({raw: true, where: {id}}).then(data => {
+        await TypeProduct.findOne({raw: true, where: {id}}).then(data => {
 
             if (data == undefined){
                 res.sendStatus(404)
             } else {
 
                 if(name != null){
-                    Location.update({name}, {where: {id}})
+                    TypeProduct.update({name}, {where: {id}})
                 }
 
-                res.json({ok: 'location edited successfully.'})
+                res.json({ok: 'product type edited successfully.'})
 
             }
 
         }).catch(() => {
-            res.json({err: 'location not found.'})
+            res.json({err: 'product type not found.'})
         })
     } 
 }
@@ -85,10 +85,10 @@ exports.delete = async (req, res) => {
     if(isNaN(id)) {
         res.sendStatus(400)
     } else {
-        await Location.destroy({where: {id}}).then(() => {
-            res.json({ok: 'location deleted successfully.'})
+        await TypeProduct.destroy({where: {id}}).then(() => {
+            res.json({ok: 'product type deleted successfully.'})
         }).catch(() => {
-            res.json({err: 'localiza not found'})
+            res.json({err: 'product type not found.'})
         })
     }
 }
