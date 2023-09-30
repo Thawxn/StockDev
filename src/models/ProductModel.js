@@ -16,13 +16,11 @@ const Product = connection.define('product', {
     price: {
         type: Sequelize.INTEGER,
         allowNull: false
-    },
-    id_type_product: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {model: TypeProduct, key: 'id'}
     }
 });
+
+Product.belongsTo(TypeProduct)
+TypeProduct.hasMany(Product)
 
 // Product.sync({ force: true })
 

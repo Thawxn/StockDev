@@ -78,7 +78,7 @@ exports.edit = async (req, res) => {
     } 
 }
 
-// excluir
+// deletando
 exports.delete = async (req, res) => {
     const { id } = req.params
 
