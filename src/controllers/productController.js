@@ -46,6 +46,8 @@ exports.register = async (req, res) => {
                 } else {
                     res.json({err: 'the fields must be filled in.'})
                 }
+            }).catch(() => {
+                res.json({err: 'the fields must be filled in.'})   
             })
         } else {
             res.json({err: 'the fields must be filled in.'})

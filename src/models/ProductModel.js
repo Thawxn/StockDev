@@ -19,6 +19,8 @@ const Product = connection.define('product', {
     }
 });
 
+
+// relacionamento entre tabelas
 Product.belongsTo(TypeProduct)
 TypeProduct.hasMany(Product)
 

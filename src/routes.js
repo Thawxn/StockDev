@@ -6,6 +6,7 @@ const routes = new Router()
 const locationController = require('./controllers/locationController');
 const typeProductController = require('./controllers/typeProductController');
 const productController = require('./controllers/productController');
+const stockController = require('./controllers/stockController');
 
 // CRUD localização
 routes.get('/location', locationController.index);                              // visualizar localização
@@ -27,5 +28,12 @@ routes.get('/product/:_id', productController.indexId);                         
 routes.post('/product/register', productController.register);                   // registrar produto
 routes.put('/product/edit/:id', productController.edit);                        // editando informações do produto
 routes.delete('/product/delete/:id', productController.delete);                 // deletar produto
+
+// CRUD estoque
+routes.get('/stock', stockController.index);                                    // visualizar estoque
+routes.get('/stock/:id', stockController.indexId);                              // visualizar estoque pelo id
+routes.post('/stock/register', stockController.register);                       // registrar estoque
+routes.put('/stock/edit/:id', stockController.edit);                            // editando informações de estoque
+routes.delete('/stock/delete/:id', stockController.delete);                     // deletar estoque
 
 module.exports = routes

@@ -9,19 +9,14 @@ const Stock = connection.define('stock', {
     amount: {
         type: Sequelize.INTEGER,
         allowNull: false
-    },
-    id_product: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {model: Product, key: 'id'}
-    },
-    id_location: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {model: Location, key: 'id'}
     }
 })
 
+// Relacionamento entre tabelas
+Stock.belongsTo(Location);          
+Stock.belongsTo(Product);
+Location.hasMany(Stock);
+Product.hasMany(Stock)
 
 // Stock.sync({ force: true })
 
