@@ -8,6 +8,11 @@ const typeProductController = require('./controllers/typeProductController');
 const productController = require('./controllers/productController');
 const stockController = require('./controllers/stockController');
 
+const homeController = require('./controllers/homeController');
+
+// teste
+routes.get('/', homeController.index);
+
 // CRUD localização
 routes.get('/location', locationController.index);                              // visualizar localização
 routes.get('/location/:name', locationController.indexId)                       // procurando pelo name
@@ -24,8 +29,9 @@ routes.delete('/productType/delete/:id', typeProductController.delete)          
 
 // CRUD produto
 routes.get('/product', productController.index);                                // visualizar produtos
-routes.get('/product/:_id', productController.indexId);                         // visualizar produtos pelo id
-routes.post('/product/register', productController.register);                   // registrar produto
+routes.get('/product/register', productController.register);                    // visualizar produtos pelo id
+routes.post('/product/register', productController.registerPost);               // registrar produto
+routes.get('/product/edit/:_id', productController.editId);                     // visualizar produtos pelo id
 routes.put('/product/edit/:id', productController.edit);                        // editando informações do produto
 routes.delete('/product/delete/:id', productController.delete);                 // deletar produto
 

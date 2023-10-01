@@ -3,25 +3,21 @@ const TypeProduct = require('../models/TypeProductModel');
 
 // visualizar 
 exports.index = async (req, res) => {
-    await Product.findAll({include: [{model: TypeProduct}]}).then(data => {
-        res.json(data)
+    await Product.findAll({include: [{model: TypeProduct}]}).then(products => {
+        res.render('index', {product: products})
     }).catch(err => {
+        res.render('404')
         console.log(err)
     })
 }
 
 // visualizar um produto
-exports.indexId = async (req, res) => {
-    const { _id } = req.params
-    await Product.findOne({where: {id: _id}, include: [{model: TypeProduct}]}).then(data => {
-        res.json(data)
-    }).catch(err => {
-        console.log(err)
-    })
+exports.register = async (req, res) => {
+    res.render('product')
 }
 
 // registrar 
-exports.register = async (req, res) => {
+exports.registerPost = async (req, res) => {
     const { 
         barcode,
         name,
@@ -38,7 +34,8 @@ exports.register = async (req, res) => {
                         name,
                         price,
                         typeProductId
-                    }).then(() => {
+                    }).then(product => {
+                        res.render('product', {product: product})
                         res.json({ok: 'product registered successfully.'})
                     }).catch(() => {
                         res.json({err: 'product already registered.'})
@@ -53,6 +50,7 @@ exports.register = async (req, res) => {
             res.json({err: 'the fields must be filled in.'})
         }
     } catch (err) {
+        res.render('404')
         console.log(err)
     }
 }
@@ -70,8 +68,8 @@ exports.edit = async (req, res) => {
     if(isNaN(id)){
         res.sendStatus(400)
     } else {
-        await Product.findOne({raw: true, where: {id}}).then(data => {
-            if(data == undefined) {
+        await Product.findOne({raw: true, where: {id}}).then(product => {
+            if(product == undefined) {
                 res.sendStatus(404)
             } else {
                 if(barcode !== null) {
@@ -90,12 +88,25 @@ exports.edit = async (req, res) => {
                     Product.update({typeProductId}, {where: {id}})
                 }
 
+                res.render('product', {product: product})
                 res.json({ok: 'product edited successfully.'})
             }
         }).catch(() => {
+            res.render('404')
             res.json({err: 'product not found'})
         })
     }
+}
+
+// visualizar edite
+exports.editId = async (req, res) => {
+    const { _id } = req.params
+    await Product.findOne({where: {id: _id}, include: [{model: TypeProduct}]}).then(product => {
+        res.render('product', {product: product})
+    }).catch(err => {
+        res.render('404')
+        console.log(err)
+    })
 }
 
 // deletando
