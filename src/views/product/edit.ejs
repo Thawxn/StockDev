@@ -1,4 +1,4 @@
-<%- include('includes/head') %>
+<%- include('../includes/head') %>
 
 <section class="container">
   <h1>Hello Word</h1>
@@ -15,7 +15,7 @@
         <% } %>
           <div class="form-group">
             <label>Código de Barra</label>
-            <input value="<%= product.barcode %>" type="text" class="form-control" name="barcode">
+            <input value="<%= product.barcode %>" type="text" class="form-control" disabled name="barcode">
           </div>
           <div class="form-group">
             <label>Nome</label>
@@ -27,7 +27,7 @@
           </div>
           <div class="form-group">
             <label>Tipo de Produto</label>
-            <input value="<%= product.type_product.name %>" type="text" class="form-control" name="type_product">
+            <input value="<%= product.type_product.name %>" type="text" class="form-control" disabled name="typeProductId">
           </div>
           <button type="submit" class="btn btn-primary btn-lg btn-block">Salvar</button>
         </form>
@@ -40,4 +40,4 @@
 
 </section>
 
-<%- include('includes/footer') %>
+<%- include('../includes/footer') %>

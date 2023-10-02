@@ -8,10 +8,20 @@ const typeProductController = require('./controllers/typeProductController');
 const productController = require('./controllers/productController');
 const stockController = require('./controllers/stockController');
 
-const homeController = require('./controllers/homeController');
+// CRUD produto
+routes.get('/product', productController.index);                                // rota GET de todos os produtos
+routes.get('/product/register', productController.register);                    // rota GET de registro 
+routes.post('/product/register', productController.registerPost);               // rota POST de registro 
+routes.get('/product/edit/:id', productController.editId);                      // rota GET de editar informações de produto
+routes.post('/product/edit/:id', productController.edit);                       // rota POST de editar informações do produto
+routes.get('/product/delete/:id', productController.delete);                 // deletar produto
 
-// teste
-routes.get('/', homeController.index);
+// CRUD estoque
+routes.get('/stock', stockController.index);                                    // visualizar estoque
+routes.get('/stock/:id', stockController.indexId);                              // visualizar estoque pelo id
+routes.post('/stock/register', stockController.register);                       // registrar estoque
+routes.put('/stock/edit/:id', stockController.edit);                            // editando informações de estoque
+routes.delete('/stock/delete/:id', stockController.delete);                     // deletar estoque
 
 // CRUD localização
 routes.get('/location', locationController.index);                              // visualizar localização
@@ -27,19 +37,6 @@ routes.post('/productType/register', typeProductController.register);           
 routes.put('/productType/edit/:id', typeProductController.edit);                // editando informações do tipo de produto
 routes.delete('/productType/delete/:id', typeProductController.delete)          // deletar tipo de produto
 
-// CRUD produto
-routes.get('/product', productController.index);                                // visualizar produtos
-routes.get('/product/register', productController.register);                    // visualizar produtos pelo id
-routes.post('/product/register', productController.registerPost);               // registrar produto
-routes.get('/product/edit/:_id', productController.editId);                     // visualizar produtos pelo id
-routes.put('/product/edit/:id', productController.edit);                        // editando informações do produto
-routes.delete('/product/delete/:id', productController.delete);                 // deletar produto
 
-// CRUD estoque
-routes.get('/stock', stockController.index);                                    // visualizar estoque
-routes.get('/stock/:id', stockController.indexId);                              // visualizar estoque pelo id
-routes.post('/stock/register', stockController.register);                       // registrar estoque
-routes.put('/stock/edit/:id', stockController.edit);                            // editando informações de estoque
-routes.delete('/stock/delete/:id', stockController.delete);                     // deletar estoque
 
 module.exports = routes
