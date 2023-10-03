@@ -1,25 +1,44 @@
 <%- include('../includes/head') %>
 
-<section class="container">
-  <h1>Hello Word</h1>
+<section style="display: flex;">
 
-  <div class="responsive-table">
-    <table class="table my-3">
+  <%-include('../includes/nav') %>
 
-      <% stock.forEach(stocks => { %>
-        <tr>
-          <td><%= stocks.product.barcode %></td>
-          <td><%= stocks.product.name %></td>
-          <td><%= stocks.amount %></td>
-          <td><%= stocks.location.name %></td>
-          <td><a href="/product/edit/<%= stocks.id%>">Editar</a></td>
-          <td><a class="text-danger" href="/product/delete/<%= stocks.id%>">Deletar</a></td>
-        </tr>
-      <% }) %>
+  <div class="container sahdow p-3 mb-5 bg-body-tertiary.rounded">
 
-    </table>
+    <div class="responsive-table">
+      <table class="table table-striped table-hover my-3 text-center">
+  
+        <thead>
+          <tr>
+            <th scope="col">Código de Barra</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col">Localização</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+  
+        <tbody>
+          <% stock.forEach(stocks => { %>
+            <tr>
+              <td><%= stocks.product.barcode %></td>
+              <td><%= stocks.product.name %></td>
+              <td><%= stocks.amount %></td>
+              <td><%= stocks.location.name %></td>
+              <td><button type="button" class="btn btn-warning"><a href="/product/edit/<%= stocks.id%>">Editar</a></button></td>
+              <td><button type="button" class="btn btn-danger"><a class="text-light" href="/product/delete/<%= stocks.id%>">Deletar</a></button></td>
+            </tr>
+          <% }) %>
+        </tbody>
+        
+      </table>
+    </div>
+
   </div>
-</div>
+
+  
 
 </section>
 

@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap');
 :root {
-  --primary-color: rgb(17, 86, 102);
+  --primary-color: rgb(21, 28, 138);
   --primary-color-darker: rgb(9, 48, 56);
 }
 
@@ -19,13 +19,25 @@ body {
 }
 
 .container {
-  max-width: 640px;
+  max-width: 1000px;
   margin: 50px auto;
-  background: #fff;
+  background: #ffffff;
   padding: 20px;
   border-radius: 10px;
 }
 
+.container-2 {
+  min-width: 200px;
+  max-width: 250px;
+  background: #ffffff;
+  height: 100vh;
+  
+}
+
+tbody, a {
+  text-decoration: none;
+  color: #000;
+}
 
 form input, form label, form button {
   display: block;

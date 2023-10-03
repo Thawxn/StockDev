@@ -13,11 +13,14 @@ exports.index = async (req, res) => {
 
 // rota GET de registro
 exports.register = async (req, res) => {
-    await TypeProduct.findAll().then(data => {
+    const data = await TypeProduct.findAll()
+
+    try {
         res.render('product/register', {data: data})
-    }).catch(err => {
-        console.log(err)
-    })
+    } catch (error) {
+        res.render('404')
+        console.error('Error: ', error)
+    }
 }
 
 // rota POST de registro 

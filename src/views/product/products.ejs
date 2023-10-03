@@ -1,25 +1,42 @@
 <%- include('../includes/head') %>
 
-<section class="container">
-  <h1>Hello Word</h1>
+<section  style="display: flex;">
+  
+  <%-include('../includes/nav') %>
 
-  <div class="responsive-table">
-    <table class="table my-3">
+  <div class="container shadow p-3 mb-5 bg-body-tertiary rounded">
 
-      <% product.forEach(products => { %>
-        <tr>
-          <td><%= products.barcode %></td>
-          <td><%= products.name %></td>
-          <td><%= products.price %></td>
-          <td><%= products.type_product.name %></td>
-          <td><a href="/product/edit/<%= products.id%>">Editar</a></td>
-          <td><a class="text-danger" href="/product/delete/<%= products.id%>">Deletar</a></td>
-        </tr>
-      <% }) %>
+    <div class="responsive-table">
+      <table class="table table-striped table-hover my-3 text-center">
+  
+        <thead>
+          <tr>
+            <th scope="col">Código de Barra</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Preço</th>
+            <th scope="col">Tipo de Produto</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+  
+        <tbody>
+          <% product.forEach(products => { %>
+            <tr>
+              <td><%= products.barcode %></td>
+              <td><%= products.name %></td>
+              <td><%= products.price %></td>
+              <td><%= products.type_product.name %></td>
+              <td><button type="button" class="btn btn-warning"><a href="/product/edit/<%= products.id%>">Editar</a></td></button> 
+              <td><button type="button" class="btn btn-danger"><a class="text-light" href="/product/delete/<%= products.id%>">Deletar</a></button></td>
+            </tr>
+          <% }) %>
+        </tbody>
+  
+      </table>
+    </div>
 
-    </table>
   </div>
-</div>
 
 </section>
 
