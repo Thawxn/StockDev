@@ -2,43 +2,34 @@ const Stock = require('../models/StockModel');
 const Location = require('../models/LocationModel');
 const Product = require('../models/ProductModel');
 
-// visualizar
+// rota GET de estoque
 exports.index = async (req, res) => {
     await Stock.findAll({
         include: [{model: Location}, {model: Product}]
-    }).then(data => {
-        res.json(data)
+    }).then(stock => {
+        res.render('stock/stock', {stock: stock})
     }).catch(err => {
         res.json(err)
     })
 }
 
-// visualizando um stock
-exports.indexId = async (req, res) => {
-    const { id } = req.params;
-
-    if(isNaN(id)) {
-        res.sendStatus(400)
-    } else {
-        await Stock.findOne({
-            where: {id},
-            include: [{model: Location}, {model: Product}]
-        }, ).then(data => {
-            res.json(data)
-        }).catch(() => {
-            res.json({err: 'stock not found.'})
-        })
-    }
+exports.regProduct = async (req, res) => {
+    await Product.findAll().then(products => {
+        res.render('stock/register', {product: products})
+    }).catch(err => {
+        res.render('404')
+        console.log(err)
+    })
 }
 
-// registrar
-exports.register = async (req, res) => {
+// rota POST de registro
+exports.registerPost = async (req, res) => {
     const {
         amount,
         locationId,
         productId
     } = req.body
-
+    
     try {
         if(amount !== '' && locationId !== '' && productId !== '') {
             await Stock.findOne({where: {productId, locationId}}).then(data => {
@@ -67,6 +58,23 @@ exports.register = async (req, res) => {
     }
 }
 
+// visualizando um stock
+exports.indexId = async (req, res) => {
+    const { id } = req.params;
+
+    if(isNaN(id)) {
+        res.sendStatus(400)
+    } else {
+        await Stock.findOne({
+            where: {id},
+            include: [{model: Location}, {model: Product}]
+        }, ).then(data => {
+            res.json(data)
+        }).catch(() => {
+            res.json({err: 'stock not found.'})
+        })
+    }
+}
 
 // editando informações
 exports.edit = async (req, res) => {
@@ -107,7 +115,6 @@ exports.edit = async (req, res) => {
     }
     
 }
-
 
 // deletando
 exports.delete = async (req, res) => {

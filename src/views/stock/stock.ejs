@@ -1,0 +1,26 @@
+<%- include('../includes/head') %>
+
+<section class="container">
+  <h1>Hello Word</h1>
+
+  <div class="responsive-table">
+    <table class="table my-3">
+
+      <% stock.forEach(stocks => { %>
+        <tr>
+          <td><%= stocks.product.barcode %></td>
+          <td><%= stocks.product.name %></td>
+          <td><%= stocks.amount %></td>
+          <td><%= stocks.location.name %></td>
+          <td><a href="/product/edit/<%= stocks.id%>">Editar</a></td>
+          <td><a class="text-danger" href="/product/delete/<%= stocks.id%>">Deletar</a></td>
+        </tr>
+      <% }) %>
+
+    </table>
+  </div>
+</div>
+
+</section>
+
+<%- include('../includes/footer') %>

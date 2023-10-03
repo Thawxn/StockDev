@@ -1,0 +1,119 @@
+<%- include('../includes/head') %>
+
+<section class="container">
+  <h1>Hello Word</h1>
+
+  <div class="responsive-table">
+    
+
+
+
+      <form class="row g-3 needs-validation" novalidate>
+        <div class="col-md-4">
+          <label for="validationCustom01" class="form-label">First name</label>
+          <input type="text" class="form-control" id="validationCustom01" value="Mark" required>
+          <div class="valid-feedback">
+            Looks good!
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label for="validationCustom02" class="form-label">Last name</label>
+          <input type="text" class="form-control" id="validationCustom02" value="Otto" required>
+          <div class="valid-feedback">
+            Looks good!
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label for="validationCustomUsername" class="form-label">Username</label>
+          <div class="input-group has-validation">
+            <span class="input-group-text" id="inputGroupPrepend">@</span>
+            <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+            <div class="invalid-feedback">
+              Please choose a username.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label for="validationCustom03" class="form-label">City</label>
+          <div class="form-group">
+            <select class="form-select teste" aria-label="Default select example">
+            </select>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Pesquisar
+            </button>
+          </div>
+          <div class="invalid-feedback">
+            Please provide a valid city.
+          </div>
+        </div>
+        <div class="col-12">
+          <button class="btn btn-primary" type="submit">Submit form</button>
+        </div>
+      </form>
+
+
+
+      <div class="col-lg">
+
+        
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <select class="form-select" multiple aria-label="Multiple select example">
+                  <% product.forEach(products => { %>
+                    <option value="<%= products.id %>"><%= products.name %> </option>
+                  <% }) %>
+                </select>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Send message</button>
+              </div>
+            </div>
+          </div>
+        </div>
+          
+
+        
+        
+      </div>
+
+
+
+  </div>
+</div>
+
+</section>
+
+<%- include('../includes/footer') %>
+
+<script>
+
+  const modal = document.querySelector('.modal-body');
+  
+  modal.addEventListener('click', e => {
+    const text = e.target.text
+    const value = e.target.value
+    testeSelect(text, value)
+    console.log(text, value)
+
+  })
+
+  function testeSelect(text, id) {
+    const select = document.querySelector('.teste')
+    select.innerHTML = ''
+    const op = document.createElement('option');
+    op.value = id
+    op.innerHTML = text
+    select.appendChild(op, id)
+  }  
+  
+</script>
