@@ -18,10 +18,7 @@ routes.get('/product/delete/:id', productController.delete);                    
 
 // CRUD estoque
 routes.get('/stock', stockController.index);                                    // rota GET do estoque
-// routes.get('/stock/register', stockController.register);                        // rota GET de registro
-
-routes.get('/stock/register', stockController.regProduct);                        // rota GET de registro
-
+routes.get('/stock/register', stockController.registro);                      // rota GET de registro
 routes.post('/stock/register', stockController.registerPost);                   // rota POST de registro
 routes.get('/stock/:id', stockController.indexId);                              // visualizar estoque pelo id
 routes.put('/stock/edit/:id', stockController.edit);                            // editando informações de estoque

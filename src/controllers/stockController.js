@@ -13,13 +13,18 @@ exports.index = async (req, res) => {
     })
 }
 
-exports.regProduct = async (req, res) => {
-    await Product.findAll().then(products => {
-        res.render('stock/register', {product: products})
-    }).catch(err => {
+// rota GET de registro
+exports.registro = async (req, res) => {
+
+    const product =  await Product.findAll()
+    const location = await Location.findAll()
+
+    try {
+        res.render('stock/register', {product: product, location: location})
+    } catch (error) {
         res.render('404')
-        console.log(err)
-    })
+        console.error('Error: ', error)
+    }
 }
 
 // rota POST de registro
@@ -39,7 +44,7 @@ exports.registerPost = async (req, res) => {
                         locationId,
                         productId
                     }).then(() => {
-                        res.json({ok: 'stock registered successfully.'})
+                        res.redirect('/stock')
                     }).catch(() => {
                         res.json({err: 'error when trying to register stock.'})
                     })

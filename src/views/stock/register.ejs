@@ -4,89 +4,65 @@
   <h1>Hello Word</h1>
 
   <div class="responsive-table">
-    
-
-
-
-      <form class="row g-3 needs-validation" novalidate>
-        <div class="col-md-4">
-          <label for="validationCustom01" class="form-label">First name</label>
-          <input type="text" class="form-control" id="validationCustom01" value="Mark" required>
-          <div class="valid-feedback">
-            Looks good!
-          </div>
-        </div>
-        <div class="col-md-4">
-          <label for="validationCustom02" class="form-label">Last name</label>
-          <input type="text" class="form-control" id="validationCustom02" value="Otto" required>
-          <div class="valid-feedback">
-            Looks good!
-          </div>
-        </div>
-        <div class="col-md-4">
-          <label for="validationCustomUsername" class="form-label">Username</label>
-          <div class="input-group has-validation">
-            <span class="input-group-text" id="inputGroupPrepend">@</span>
-            <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
-            <div class="invalid-feedback">
-              Please choose a username.
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <label for="validationCustom03" class="form-label">City</label>
-          <div class="form-group">
-            <select class="form-select teste" aria-label="Default select example">
-            </select>
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              Pesquisar
-            </button>
-          </div>
-          <div class="invalid-feedback">
-            Please provide a valid city.
-          </div>
-        </div>
-        <div class="col-12">
-          <button class="btn btn-primary" type="submit">Submit form</button>
-        </div>
-      </form>
-
-
+    <table class="table my-3">
 
       <div class="col-lg">
 
-        
+        <form action="/stock/register" method="post">
 
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <select class="form-select" multiple aria-label="Multiple select example">
-                  <% product.forEach(products => { %>
-                    <option value="<%= products.id %>"><%= products.name %> </option>
-                  <% }) %>
-                </select>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Send message</button>
-              </div>
+          <div class="form-group">
+            <label>Quantidade</label>
+            <input type="text" class="form-control" name="amount">
+          </div>
+
+          <div class="form-group my-3">
+            <label>Localização</label>
+            <select class="form-select form-select-sm" name="locationId" aria-label="Small select example">
+              <% location.forEach(locations => { %>
+                <option value="<%= locations.id %>"><%= locations.name %> </option>
+              <% }) %>
+            </select>
+          </div>
+
+          <div class="form-group my-3">
+            <label>Produto</label>
+            <select class="form-select teste" name="productId" aria-label="Default select example">
+            </select>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              pesquisar
+            </button>
+          </div>
+          
+          
+          <button type="submit" class="btn btn-primary btn-lg btn-block ">Enviar</button>
+        </form>
+        
+      </div>
+    </table>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body modal-one">
+              <select class="form-select" multiple aria-label="Multiple select example">
+                <% product.forEach(products => { %>
+                  <option value="<%= products.id %>"> <%= products.name %> </option>
+                <% }) %>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Send message</button>
             </div>
           </div>
         </div>
-          
-
-        
-        
       </div>
-
-
 
   </div>
 </div>
@@ -97,7 +73,7 @@
 
 <script>
 
-  const modal = document.querySelector('.modal-body');
+  const modal = document.querySelector('.modal-one');
   
   modal.addEventListener('click', e => {
     const text = e.target.text
