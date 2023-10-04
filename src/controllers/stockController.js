@@ -30,36 +30,47 @@ exports.registro = async (req, res) => {
 // rota POST de registro
 exports.registerPost = async (req, res) => {
     const {
-        amount,
+        amounts,
         locationId,
         productId
     } = req.body
-    
-    try {
-        if(amount !== '' && locationId !== '' && productId !== '') {
-            await Stock.findOne({where: {productId, locationId}}).then(data => {
-                if(data == undefined) {
-                    Stock.create({
-                        amount,
-                        locationId,
-                        productId
-                    }).then(() => {
-                        res.redirect('/stock')
-                    }).catch(() => {
-                        res.json({err: 'error when trying to register stock.'})
-                    })
-                } else {
-                    res.json({err: 'stock already registered'})
-                }
-            }).catch(() => {
-                res.json({err: 'stock already registered'})    
-            })
 
-        } else {
-            res.json({err: 'specific fields will be filled.'})
-        }
-    } catch(err) {
-        console.err('error found: ',err)   
+    if(amounts === '' && locationId === '' && productId === '') {
+        res.json({err: 'specific fields will be filled.'})
+    }
+
+    const stock = await Stock.findOne({where: { productId, locationId }})
+
+    try {
+
+        if(stock == undefined) {
+            await Stock.create({
+                amount: amounts,
+                locationId,
+                productId
+            }).then(() => {
+                res.redirect('/stock')
+            }).catch(() => {
+                res.json({err: 'error when trying to register stock.'})
+            })
+        } 
+    
+        if(stock) {
+            let amount = parseInt(amounts) + parseInt(stock.amount)
+            
+            await Stock.findOne({where: { productId, locationId }}).then(() => {
+                if(amount !== null) {
+                    Stock.update({amount}, {where: {productId, locationId}})
+                }
+    
+                res.redirect('/stock')
+            }).catch(err => {
+                console.log(err)
+            })
+        } 
+
+    } catch (error) {
+        console.err('error found: ', error)
     }
 }
 
