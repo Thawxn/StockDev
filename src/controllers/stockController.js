@@ -85,7 +85,7 @@ exports.indexId = async (req, res) => {
             where: {id},
             include: [{model: Location}, {model: Product}]
         }, ).then(data => {
-            res.json(data)
+            res.render('stock/edit', {data: data, lotacion: Location, product: Product})
         }).catch(() => {
             res.json({err: 'stock not found.'})
         })
@@ -100,36 +100,86 @@ exports.edit = async (req, res) => {
         locationId,
         productId
     } = req.body;
+
+    if(isNaN(id)) {
+        res.sendStatus(400)
+    }
+
+    const stock = await Stock.findOne({raw: true, where: {id}})
+
     try {
-        if(isNaN(id)) {
-            res.sendStatus(400)
+        if(stock !== undefined) {
+            if(amount !== null) {
+                await Stock.update({amount}, {where: {id}})
+            }
+    
+            if(locationId !== null) {
+                await Stock.update({locationId}, {where: {id}})
+            }
+    
+            if(productId !== null) {
+                await Stock.update({productId}, {where: {id}})
+            }
+    
+            res.redirect('/stock')
         } else {
-            await Stock.findOne({raw: true, Where: {id}}).then(data => {
-                if(data == undefined) {
-                    res.sendStatus(404)
-                } else {
-                    if(amount !== null) {
-                        Stock.update({amount}, {where: {id}})
-                    }
-    
-                    if(locationId !== null) {
-                        Stock.update({locationId}, {where: {id}})
-                    }
-    
-                    if(productId !== null) {
-                        Stock.update({productId}, {where: {id}})
-                    }
-    
-                    res.json({ok: 'stock edited successfully.'})
-                }
-            }).catch(() => {
-                res.json({err: 'product not found'})
-            })
-        }    
-    } catch (err) {
-        console.err('error found: ', err)
+            res.json({err: 'stock information not found'})
+        }
+    } catch (error) {
+        console.err('error found: ', error)
     }
     
+}
+
+// rota GET de registro
+exports.exit = async (req, res) => {
+
+    const product =  await Product.findAll()
+    const location = await Location.findAll()
+
+    try {
+        res.render('stock/exit', {product: product, location: location})
+    } catch (error) {
+        res.render('404')
+        console.error('Error: ', error)
+    }
+}
+
+// rota POST de registro
+exports.exitPost = async (req, res) => {
+    const {
+        amounts,
+        locationId,
+        productId
+    } = req.body
+
+    if(amounts === '' && locationId === '' && productId === '') {
+        res.json({err: 'specific fields will be filled.'})
+    }
+
+    const stock = await Stock.findOne({where: { productId, locationId }})
+
+    try {
+
+        if(stock == undefined) {
+            res.json({fail: 'product does not exist in stock.'})
+        } 
+    
+        if(stock) {
+            let amount = parseInt(stock.amount) - parseInt(amounts)
+
+            if(amount < 0) {
+                res.json({err: 'there is no such quantity in stock.'})
+            } else {
+                await Stock.update({amount}, {where: {productId, locationId}})
+
+                res.redirect('/stock')
+            }
+        } 
+
+    } catch (error) {
+        console.err('error found: ', error)
+    }
 }
 
 // deletando

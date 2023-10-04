@@ -1,42 +1,51 @@
 <%- include('../includes/head') %>
 
-<section class="container">
-  <h1>Hello Word</h1>
+<section style="display: flex;">
 
-  <div class="responsive-table">
-    <table class="table my-3">
+  <%-include('../includes/nav') %>
 
-      <div class="col-lg">
-
-        <% if(product.id) { %>
-          <form action="/product/edit/<%= product.id %>" method="post">
-        <% } else { %>
-          <form action="/product/register" method="post">
-        <% } %>
-          <div class="form-group">
-            <label>Código de Barra</label>
-            <input value="<%= product.barcode %>" type="text" class="form-control" disabled name="barcode">
-          </div>
-          <div class="form-group">
-            <label>Nome</label>
-            <input value="<%= product.name %>" type="text" class="form-control" name="name">
-          </div>
-          <div class="form-group">
-            <label>Preço</label>
-            <input value="<%= product.price %>" type="text" class="form-control" name="price">
-          </div>
-          <div class="form-group">
-            <label>Tipo de Produto</label>
-            <input value="<%= product.type_product.name %>" type="text" class="form-control" disabled name="typeProductId">
-          </div>
-          <button type="submit" class="btn btn-primary btn-lg btn-block">Salvar</button>
-        </form>
-      </div>
-
-
-    </table>
+  <div class="container shadow p-3 mb-5 bg-body-tertiary rounded">
+    <div class="responsive-table">
+      <table class="table my-3">
+  
+        <div class="col-lg">
+  
+            <% if(product.id) { %>
+            <form action="/product/edit/<%= product.id %>" method="post">
+            <% } else { %>
+            <form action="/product/register" method="post">
+            <% } %>
+  
+              <div class="form-group my-3">
+                <label>Código de Barra</label>
+                <input value="<%= product.barcode %>" type="text" class="form-control" disabled name="barcode">
+              </div>
+  
+              <div class="form-group my-3">
+                <label>Nome</label>
+                <input value="<%= product.name %>" type="text" class="form-control" name="name">
+              </div>
+  
+              <div class="form-group my-3">
+                <label>Preço</label>
+                <input value="<%= product.price %>" type="text" class="form-control" name="price">
+              </div>
+  
+              <div class="form-group my-3">
+                <label>Tipo de Produto</label>
+                <input value="<%= product.type_product.name %>" type="text" class="form-control" disabled name="typeProductId">
+              </div>
+  
+              <div class="d-grid gap-2 my-3">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Editar</button>
+              </div>
+              
+            </form>
+        </div>
+  
+      </table>
+    </div>
   </div>
-</div>
 
 </section>
 

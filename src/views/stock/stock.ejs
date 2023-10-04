@@ -27,8 +27,8 @@
               <td><%= stocks.product.name %></td>
               <td><%= stocks.amount %></td>
               <td><%= stocks.location.name %></td>
-              <td><button type="button" class="btn btn-warning"><a href="/product/edit/<%= stocks.id%>">Editar</a></button></td>
-              <td><button type="button" class="btn btn-danger"><a class="text-light" href="/product/delete/<%= stocks.id%>">Deletar</a></button></td>
+              <td><button type="button" class="btn btn-warning"><a href="/stock/edit/<%= stocks.id%>">Editar</a></button></td>
+              <td><button type="button" class="btn btn-danger"><a class="text-light" href="/stock/delete/<%= stocks.id%>">Deletar</a></button></td>
             </tr>
           <% }) %>
         </tbody>

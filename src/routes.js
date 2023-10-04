@@ -20,8 +20,10 @@ routes.get('/product/delete/:id', productController.delete);                    
 routes.get('/stock', stockController.index);                                    // rota GET do estoque
 routes.get('/stock/register', stockController.registro);                        // rota GET de registro
 routes.post('/stock/register', stockController.registerPost);                   // rota POST de registro
-routes.get('/stock/:id', stockController.indexId);                              // visualizar estoque pelo id
-routes.put('/stock/edit/:id', stockController.edit);                            // editando informações de estoque
+routes.get('/stock/edit/:id', stockController.indexId);                         // rota GET de editar informações de estoque
+routes.post('/stock/edit/:id', stockController.edit);                           // rota POST de editar informações de estoque
+routes.get('/stock/exit', stockController.exit);                                // rota GET de saida
+routes.post('/stock/exit', stockController.exitPost);                           // rota POST de saida
 routes.delete('/stock/delete/:id', stockController.delete);                     // deletar estoque
 
 // CRUD localização
