@@ -1,0 +1,39 @@
+<%- include('../includes/head') %>
+
+<section style="display: flex;">
+
+  <%-include('../includes/nav') %>
+
+  <div class="container sahdow p-3 mb-5 bg-body-tertiary.rounded">
+
+    <div class="responsive-table">
+      <table class="table table-striped table-hover my-3 text-center">
+  
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+  
+        <tbody>
+          <% data.forEach(datas => { %>
+            <tr>
+              <th scope="row"><%= datas.id %></th>
+              <td><%= datas.name %></td>
+              <td><button type="button" class="btn btn-warning"><a href="/productType/edit/<%= datas.id%>">Editar</a></button></td>
+              <td><button type="button" class="btn btn-danger"><a class="text-light" href="/productType/delete/<%= datas.id%>">Deletar</a></button></td>
+            </tr>
+          <% }) %>
+        </tbody>
+        
+      </table>
+    </div>
+
+  </div>  
+
+</section>
+
+<%- include('../includes/footer') %>

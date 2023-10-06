@@ -33,26 +33,34 @@ exports.registerPost = async (req, res) => {
     } = req.body
 
     if(barcode === '' && name === '' && price === '' && typeProductId === '') {
-        res.json({err: 'the fields must be filled in.'})
+        req.flash('err', 'Necessário preencher todos os campos')
+        req.session.save(() => res.redirect('/product/register'));
     }
 
     const product = await Product.findOne({where: {barcode}})
 
     try {
-        if(product !== undefined) {
+        if(product == undefined) {
             await Product.create({
                 barcode,
                 name,
                 price,
                 typeProductId
             }).then(() => {
-                res.redirect('/product')
+                req.flash('success', 'Produto lançado com sucesso')
+                req.session.save(() => res.redirect('/product/register'));
             }).catch(() => {
-                res.json({err: 'error when trying to register product.'})
+                req.flash('err', 'Error ao tentar lançar produto.')
+                req.session.save(() => res.redirect('/product/register'));
             })
-        } else {
-            res.json({err: 'product already registered.'})
         }
+
+        if (product) {
+            req.flash('err', 'Produto já registrado')
+            req.session.save(() => res.redirect('/product/register'));
+        }
+        
+
     } catch (error) {
         res.render('404')
         console.log(error)
@@ -81,34 +89,44 @@ exports.edit = async (req, res) => {
         typeProductId
     } = req.body
 
+    const product = await Product.findOne({where: {id: id}})
+
     if(isNaN(id)) {
         res.sendStatus(400)
     }
 
     try {
-        if(barcode !== null) {
-            await Product.update({barcode}, {where: {id}})
+
+        if(product == undefined) {
+            if(barcode !== null) {
+                await Product.update({barcode}, {where: {id}})
+            }
+        
+            if(name !== null) {
+                await Product.update({name}, {where: {id}})
+            }
+        
+            if(price !== null) {
+                await Product.update({price}, {where: {id}})
+            }
+        
+            if(typeProductId != null) {
+                await Product.update({typeProductId}, {where: {id}})
+            }
+        
+            req.flash('success', 'Produto lançado com sucesso')
+            req.session.save(() => res.redirect(`/stock/edit/${product.id}`));
         }
-    
-        if(name !== null) {
-            await Product.update({name}, {where: {id}})
+
+        if(product) {
+            req.flash('err', 'Produto já cadastrado')
+            req.session.save(() => res.redirect(`/stock/edit/${product.id}`));
         }
-    
-        if(price !== null) {
-            await Product.update({price}, {where: {id}})
-        }
-    
-        if(typeProductId != null) {
-            await Product.update({typeProductId}, {where: {id}})
-        }
-    
-        res.redirect('/product')
+        
     } catch (err) {
         res.render('404')
         console.err('error found: ',err)
     }
-
-    
             
 }
 
