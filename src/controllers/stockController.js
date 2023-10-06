@@ -36,7 +36,8 @@ exports.registerPost = async (req, res) => {
     } = req.body
 
     if(amounts === '' && locationId === '' && productId === '') {
-        res.json({err: 'specific fields will be filled.'})
+        req.flash('err', 'Necessário preencher todos os campos')
+        req.session.save(() => res.redirect('/stock/register'));
     }
 
     const stock = await Stock.findOne({where: { productId, locationId }})
@@ -49,9 +50,11 @@ exports.registerPost = async (req, res) => {
                 locationId,
                 productId
             }).then(() => {
-                res.redirect('/stock')
+                req.flash('success', 'Produto registrado com sucesso.')
+                req.session.save(() => res.redirect('/stock/register'));
             }).catch(() => {
-                res.json({err: 'error when trying to register stock.'})
+                req.flash('err', 'Error ao tentar registrar produto em estoque')
+                req.session.save(() => res.redirect('/stock/register'));
             })
         } 
     
@@ -63,7 +66,8 @@ exports.registerPost = async (req, res) => {
                     Stock.update({amount}, {where: {productId, locationId}})
                 }
     
-                res.redirect('/stock')
+                req.flash('success', 'Produto atualizado com sucesso')
+                req.session.save(() => res.redirect('/stock/register'));
             }).catch(err => {
                 console.log(err)
             })
@@ -121,17 +125,19 @@ exports.edit = async (req, res) => {
                 await Stock.update({productId}, {where: {id}})
             }
     
-            res.redirect('/stock')
+            req.flash('success', 'Estoque editado com sucesso')
+            req.session.save(() => res.redirect(`/stock/edit/${stock.id}`));
         } else {
-            res.json({err: 'stock information not found'})
+            res.render('404')
         }
     } catch (error) {
         console.err('error found: ', error)
+        res.render('404')
     }
     
 }
 
-// rota GET de registro
+// rota GET de saida de produto
 exports.exit = async (req, res) => {
 
     const product =  await Product.findAll()
@@ -145,7 +151,7 @@ exports.exit = async (req, res) => {
     }
 }
 
-// rota POST de registro
+// rota POST de saida de produto
 exports.exitPost = async (req, res) => {
     const {
         amounts,
@@ -153,8 +159,9 @@ exports.exitPost = async (req, res) => {
         productId
     } = req.body
 
-    if(amounts === '' && locationId === '' && productId === '') {
-        res.json({err: 'specific fields will be filled.'})
+    if(amounts === '' || locationId === '' || productId === '') {
+        req.flash('err', 'Necessário preencher todos os campos')
+        req.session.save(() => res.redirect('/stock/exit'));
     }
 
     const stock = await Stock.findOne({where: { productId, locationId }})
@@ -162,22 +169,26 @@ exports.exitPost = async (req, res) => {
     try {
 
         if(stock == undefined) {
-            res.json({fail: 'product does not exist in stock.'})
+            req.flash('err', 'Esse produto não existe nesse estoque')
+            req.session.save(() => res.redirect('/stock/exit'));
         } 
     
         if(stock) {
             let amount = parseInt(stock.amount) - parseInt(amounts)
 
             if(amount < 0) {
-                res.json({err: 'there is no such quantity in stock.'})
+                req.flash('err', 'Essa quantidade de produto não existe nesse estoque')
+                req.session.save(() => res.redirect('/stock/exit'));
             } else {
                 await Stock.update({amount}, {where: {productId, locationId}})
 
-                res.redirect('/stock')
+                req.flash('success', 'Saída de produto feita com sucesso')
+                req.session.save(() => res.redirect('/stock/exit'));
             }
         } 
 
     } catch (error) {
+        res.render('404')
         console.err('error found: ', error)
     }
 }

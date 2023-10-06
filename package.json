@@ -19,10 +19,12 @@
   "homepage": "https://github.com/Thawxn/Estoque#readme",
   "dependencies": {
     "body-parser": "^1.20.2",
+    "connect-flash": "^0.1.1",
     "css-loader": "^6.8.1",
     "dotenv": "^16.3.1",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
+    "express-session": "^1.17.3",
     "mysql2": "^3.6.1",
     "sequelize": "^6.33.0",
     "style-loader": "^3.3.3"

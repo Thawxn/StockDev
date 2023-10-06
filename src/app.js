@@ -1,12 +1,30 @@
+require('dotenv').config();
+
 const express = require('express');
+const app = express();
+
+const session = require('express-session');
+const flash = require('connect-flash');
 const path = require('path')
 const routes = require('./routes');
 const bodyParser = require('body-parser');
 
+// importanto middleware
+const { middlewareGlobal } = require('./middleware/middleware');
+
+app.use(session({
+    secret: process.env.SECRET,
+    resave: true,
+    saveUninitialized: true
+}))
+
+app.use(flash())
+
+// middleware
+app.use(middlewareGlobal)
+
 // Importdado Database
 const connection = require('./database/db');
-
-const app = express();
 
 // Conectando banco de dados
 connection

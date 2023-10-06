@@ -9,11 +9,7 @@
       <table class="table my-3">
   
         <div class="col-lg">
-          <% if(data.id) { %>
           <form action="/stock/edit/<%= data.id %>" method="post">
-          <% } else { %>
-          <form action="/stock/register" method="post">
-          <% } %>
   
             <div class="form-group my-3">
               <label>Código de Barra</label>
@@ -38,7 +34,9 @@
             <div class="d-grid gap-2">
               <button type="submit" class="btn btn-primary btn-lg btn-block">Editar</button>
             </div>
-            
+
+            <%-include('../includes/message') %>
+
           </form>
         </div>
   

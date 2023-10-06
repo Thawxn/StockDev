@@ -14,12 +14,12 @@
   
             <div class="form-group">
               <label>Quantidade</label>
-              <input type="text" class="form-control" name="amounts">
+              <input type="text" class="form-control" name="amounts" required> 
             </div>
   
             <div class="form-group my-3">
               <label>Localização</label>
-              <select class="form-select form-select-sm" name="locationId" aria-label="Small select example">
+              <select class="form-select form-select-sm" name="locationId" aria-label="Small select example" required>
                 <% location.forEach(locations => { %>
                   <option value="<%= locations.id %>"><%= locations.name %> </option>
                 <% }) %>
@@ -28,7 +28,7 @@
   
             <div class="form-group my-3">
               <label>Produto</label>
-              <select class="form-select teste" name="productId" aria-label="Default select example">
+              <select class="form-select teste" name="productId" aria-label="Default select example" required>
               </select>
             </div>
 
@@ -39,10 +39,11 @@
               </button>
             </div>
 
-            <div class="d-grid gap-2">
-              <button type="submit" class="btn btn-success btn-block btn-block ">Enviar</button>
+            <div class="d-grid gap- my-3">
+              <button type="submit" class="btn btn-success btn-block btn-block">Enviar</button>
             </div>
-            
+
+            <%-include('../includes/message') %>
             
           </form>
         </div>
@@ -51,6 +52,8 @@
     </div>
 
   </div>
+
+  
 
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
