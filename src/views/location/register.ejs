@@ -1,0 +1,36 @@
+<%- include('../includes/head') %>
+
+<section style="display: flex;">
+
+  <%-include('../includes/nav') %>
+
+  <div class="container shadow p-3 mb-5 bg-body-tertiary rounded">
+
+    <div class="responsive-table">
+      <table class="table my-3">
+  
+        <div class="col-lg">
+          <form action="/location/register" method="post">
+
+            <div class="form-group my-3">
+              <label>Localização</label>
+              <input type="text" class="form-control" name="name">
+            </div>
+  
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-success btn-block btn-block ">Enviar</button>
+            </div>
+
+            <%- include('../includes/message') %> 
+
+          </form>
+        </div>
+  
+      </table>
+    </div>
+
+  </div>
+
+</section>
+
+<%- include('../includes/footer') %>

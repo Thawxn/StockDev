@@ -24,22 +24,23 @@ routes.get('/stock/edit/:id', stockController.indexId);                         
 routes.post('/stock/edit/:id', stockController.edit);                           // rota POST de editar informações de estoque
 routes.get('/stock/exit', stockController.exit);                                // rota GET de saida
 routes.post('/stock/exit', stockController.exitPost);                           // rota POST de saida
-routes.get('/stock/delete/:id', stockController.delete);                     // deletar estoque
+routes.get('/stock/delete/:id', stockController.delete);                        // deletar estoque
 
 // CRUD localização
-routes.get('/location', locationController.index);                              // visualizar localização
-routes.get('/location/:name', locationController.indexId)                       // procurando pelo name
-routes.post('/location/register', locationController.register);                 // reigistrar localização
-routes.post('/location/edit/:id', locationController.edit);                      // editando informações de localização
-routes.get('/location/delete/:id', locationController.delete)                // deletar localização
+routes.get('/location', locationController.index);                              // rota GET de localização
+routes.get('/location/register', locationController.register)                   // rota GET de registro
+routes.post('/location/register', locationController.registerPost);             // rota POST de registro
+routes.get('/location/edit/:id', locationController.indexId)                    // procurando pelo name
+routes.post('/location/edit/:id', locationController.edit);                     // editando informações de localização
+routes.get('/location/delete/:id', locationController.delete)                   // deletar localização
 
 // CRUD tipo de produto
 routes.get('/productType', typeProductController.index);                        // rota GET de todos os tipos de produtos
 routes.get('/productType/register', typeProductController.register)             // rota GET de registro
 routes.post('/productType/register', typeProductController.registerPost);       // rota POST de registro
-routes.get('/productType/edit/:id', typeProductController.indexId)                 // procurando pelo name
-routes.post('/productType/edit/:id', typeProductController.edit);                // editando informações do tipo de produto
-routes.get('/productType/delete/:id', typeProductController.delete)          // deletar tipo de produto
+routes.get('/productType/edit/:id', typeProductController.indexId)              // rota GET de editar informações de tipos de produtos
+routes.post('/productType/edit/:id', typeProductController.edit);               // rota POST de editar informações de tipos de produtos 
+routes.get('/productType/delete/:id', typeProductController.delete)             // deletar tipo de produto
 
 
 

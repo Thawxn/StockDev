@@ -9,12 +9,8 @@
       <table class="table my-3">
   
         <div class="col-lg">
-  
-            <% if(product.id) { %>
+
             <form action="/product/edit/<%= product.id %>" method="post">
-            <% } else { %>
-            <form action="/product/register" method="post">
-            <% } %>
   
               <div class="form-group my-3">
                 <label>Código de Barra</label>

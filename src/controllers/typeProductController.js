@@ -1,6 +1,6 @@
 const TypeProduct = require('../models/TypeProductModel');
 
-// vizualizar todos
+// rota GET de tipos de proutos
 exports.index = async (req, res) => {
     await TypeProduct.findAll().then(data => {
         res.render('typeProduct/typeProduct', {data})
@@ -9,12 +9,12 @@ exports.index = async (req, res) => {
     })
 }
 
-// vizualizar todos
+// rota GET de registro
 exports.register = async (req, res) => {
     res.render('typeProduct/register')
 }
 
-// registrar
+// rota POST de registro
 exports.registerPost = async (req, res) => {
     const { name } = req.body
 
@@ -48,7 +48,7 @@ exports.registerPost = async (req, res) => {
     }
 }
 
-// procurando pelo id
+// rota GET de editar informações de tipos de produtos
 exports.indexId = async (req, res) => {
     const { id } = req.params
     
@@ -62,7 +62,7 @@ exports.indexId = async (req, res) => {
     
 }
 
-// editar
+// rota POST de editar iniformações de tipos de produtos
 exports.edit = async (req, res) => {
     const { id } = req.params
     const { name } = req.body

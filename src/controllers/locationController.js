@@ -1,81 +1,100 @@
 const Location = require('../models/LocationModel');
 
-// vizualizar todos
+// rota GET de localzaão
 exports.index = async (req, res) => {
     await Location.findAll().then(data => {
-        res.json(data)
+        res.render('location/location', {data})
     }).catch(err => {
         console.log(err)
     })
 }
 
+// rota GET de registro
+exports.register = async (req, res) => {
+    res.render('location/register')
+}
 
-// procurando pelo nome
+// rota POST de registro
+exports.registerPost = async (req, res) => {
+    const { name } = req.body
+
+    if(name == '') {
+        req.flash('err', 'Necessário preencher todos os campos.')
+        req.session.save(() => res.redirect('/location/register'));
+    }
+
+    const location = await Location.findOne({where: {name}})
+
+    try {
+
+        if(location == undefined) {
+            await Location.create({
+                name
+            }).then(() => {
+                req.flash('success', 'Localização cadastrado com sucesso.')
+                req.session.save(() => res.redirect('/location/register'));
+            }).catch(() => {
+                req.flash('err', 'Erro ao tentar cadastrar localização.')
+                req.session.save(() => res.redirect('/location/register'));
+            })
+        }
+    
+        if(location) {
+            req.flash('err', 'Localização já cadastrada no sistema.')
+            req.session.save(() => res.redirect('/location/register'));
+        }
+
+    } catch (error) {
+        res.render('404')
+    }
+
+}
+
+// rota GET de editar informações de localização
 exports.indexId = async (req, res) => {
-    const { name } = req.params
+    const { id } = req.params
 
-    if(name !== undefined) {
-        await Location.findOne({where: {name}}).then(data => {
-            res.json(data)
-        }).catch(() => {
-            res.json({err: 'Location not found.'})
+    if(isNaN(id)) {
+        res.sendStatus(400)
+    } else {
+        await Location.findOne({where: {id}}).then(data => {
+            res.render('location/edit', {data})
         })
     }
 }
 
-// registrar
-exports.register = async (req, res) => {
-    const { name } = req.body
-
-    try {
-        if(name !== null ) {
-            await Location.findOne({where: {name}}).then(data => {
-                if(data == undefined){
-                    Location.create({name}).then(() => {
-                        res.json({ok: 'success in registering location.'})
-                    }).catch(() => {
-                        res.json({err: 'err when registering location.'})
-                    })
-                } else {
-                    res.json({err: 'location already registered.'}) 
-                }
-            }).catch(() => {
-                res.json({err: 'location already registered.'}) 
-            }) 
-        }
-    } catch(err) {
-        res.json(err)
-    }
-}
-
-
-// editar
+// rota POST de editar informações de localização
 exports.edit = async (req, res) => {
     const { id } = req.params
     const { name } = req.body
 
+    const locationId = await Location.findOne({raw: true, where: {id}})
+    const location = await Location.findOne({raw: true, where: {name}})
 
     if (isNaN(id)){
         res.sendStatus(400)
-    } else {
-        await Location.findOne({raw: true, where: {id}}).then(data => {
+    } 
+    
+    try {
+        if(location) {
+            req.flash('err', 'Localização já existe no sistema.')
+            req.session.save(() => res.redirect(`/location/edit/${locationId.id}`));
+        }
 
-            if (data == undefined){
-                res.sendStatus(404)
-            } else {
-
-                if(name != null){
-                    Location.update({name}, {where: {id}})
-                }
-
-                res.json({ok: 'location edited successfully.'})
-
+        if(location == undefined) {
+            if(name != null){
+                await Location.update({name}, {where: {id}})
             }
 
-        }).catch(() => {
-            res.json({err: 'location not found.'})
-        })
-    } 
+            req.flash('success', 'Localização editado com sucesso')
+            req.session.save(() => res.redirect(`/location/edit/${locationId.id}`));
+        }
+        
+    } catch (error) {
+        res.render('404')
+        console.error('err', error)
+    }
+    
 }
 
 // excluir
@@ -86,7 +105,7 @@ exports.delete = async (req, res) => {
         res.sendStatus(400)
     } else {
         await Location.destroy({where: {id}}).then(() => {
-            res.json({ok: 'location deleted successfully.'})
+            res.redirect('/location')
         }).catch(() => {
             res.json({err: 'localiza not found'})
         })

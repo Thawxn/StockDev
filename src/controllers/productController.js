@@ -89,44 +89,37 @@ exports.edit = async (req, res) => {
         typeProductId
     } = req.body
 
-    const product = await Product.findOne({where: {id: id}})
+    const productId = await Product.findOne({where: {id: id}})
 
     if(isNaN(id)) {
         res.sendStatus(400)
     }
 
     try {
-
-        if(product == undefined) {
-            if(barcode !== null) {
-                await Product.update({barcode}, {where: {id}})
-            }
-        
-            if(name !== null) {
-                await Product.update({name}, {where: {id}})
-            }
-        
-            if(price !== null) {
-                await Product.update({price}, {where: {id}})
-            }
-        
-            if(typeProductId != null) {
-                await Product.update({typeProductId}, {where: {id}})
-            }
-        
-            req.flash('success', 'Produto lançado com sucesso')
-            req.session.save(() => res.redirect(`/stock/edit/${product.id}`));
+        if(barcode !== null) {
+            await Product.update({barcode}, {where: {id}})
         }
-
-        if(product) {
-            req.flash('err', 'Produto já cadastrado')
-            req.session.save(() => res.redirect(`/stock/edit/${product.id}`));
+    
+        if(name !== null) {
+            await Product.update({name}, {where: {id}})
         }
-        
+    
+        if(price !== null) {
+            await Product.update({price}, {where: {id}})
+        }
+    
+        if(typeProductId != null) {
+            await Product.update({typeProductId}, {where: {id}})
+        }
+    
+        req.flash('success', 'Produto lançado com sucesso')
+        req.session.save(() => res.redirect(`/product/edit/${productId.id}`));
     } catch (err) {
         res.render('404')
         console.err('error found: ',err)
     }
+
+    
             
 }
 
