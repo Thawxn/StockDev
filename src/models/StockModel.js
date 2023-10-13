@@ -7,7 +7,7 @@ const Product = require('./ProductModel');
 
 const Stock = connection.define('stock', {
     amount: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.DECIMAL,
         allowNull: false
     }
 })
